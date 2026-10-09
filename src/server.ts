@@ -1,11 +1,21 @@
 import express from "express";
+import dontenv from "dotenv";
+import pacienteRoutes from "./routes/pacienteRoutes.js";
+import medicoRoutes from "./routes/medicoRoutes.js";
+import consultaRoutes from "./routes/consultaRoutes.js";
+
+dontenv.config();
 
 const app = express(); 
 app.use(express.json()); // dizer que o app vai usar json como padrao nas req e res http
 
-const PORT: number = 3000;
+const PORT: number = Number(process.env.PORT) || 3000;
 
-interface Usuario {
+app.use(pacienteRoutes);
+app.use(medicoRoutes);
+app.use(consultaRoutes);
+
+/* interface Usuario {
     id: number,
     nome: string,
     telefone: string
@@ -92,12 +102,12 @@ app.delete("/usuarios/:id", (req, res) => {
     // Remove o usuário do array usando o índice encontrado
     const usuarioRemovido = usuarios.splice(index, 1);
 
-    res.status(204).json({ // 204 - NO CONTENT
+    res.status(204).json({ // 204 - NO CONTENT 
         mensagem: `Usuário de id ${idProcurado} removido com sucesso!`,
         usuario: usuarioRemovido[0]
     });
 });
-
+ */
 app.listen(PORT, () => {
     console.log(`API subiu na porta ${PORT}`);
 });
